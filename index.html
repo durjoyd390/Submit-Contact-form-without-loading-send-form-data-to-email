@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Contact form</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="js/jquery.min.js"></script>
+  </head>
+  <body>
+    <div class="main-block">
+      <div class="left-part">
+        <i class="fas fa-envelope"></i>
+        <i class="fas fa-at"></i>
+        <i class="fas fa-mail-bulk"></i>
+      </div>
+      <form id="contactform">
+        <h1>Contact Us</h1>
+        <div class="info">
+          <input class="fname" type="text" name="name" id="name" placeholder="Full name" required="">
+          <input type="email" name="email" id="email" placeholder="Your Email" required="">
+          <input type="number" name="mobile" id="mobile" placeholder="Your Phone number" required="">
+        </div>
+        <p>Message</p>
+        <div>
+          <textarea rows="4" name="message" id="message"></textarea>
+        </div>
+        <div style="margin-top: 10px;" id="re" align="center"></div>
+        <button type="submit" name="submit" id="submit">Submit</button>
+      </form>
+    </div>
+  </body>
+</html>
+<script>
+  $(document).ready(function () {
+    $('#submit').click(function (e) {
+      e.preventDefault();
+
+       $('#submit[name="submit"]').html('<img src="img/loading2.gif" width="50px" height="50px"/>');
+        setTimeout(function(){
+            $('#submit[name="submit"]').text('Submit');
+        }, 1220);
+
+      var name = $('#name').val();
+      var mobile = $('#mobile').val();
+      var email = $('#email').val();
+      var message = $('#message').val();
+      $.ajax
+        ({ 
+          type: "POST",
+          url: "submit_contact.php",
+          data: { "name": name, "mobile": mobile, "email": email, "message": message },
+          success: function (data) {
+            $('#re').html(data);
+            $('#contactform')[0].reset();
+          }
+        });
+    });
+  });
+</script>
